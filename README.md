@@ -1,23 +1,32 @@
-# AirComix Server (PHP version) for Docker
+# solha/aircomix-server
+Docker image for running AirComix server (PHP version)
 
-Volume
+## Usage
+```bash
+docker create \
+    --name=<your-container-name> \
+    -v <path-of-comics>:/comics \
+    -p <service-port>:31257 \
+    solha/aircomix-server
+```
 
-/comics : root directory of comics
+## Parameters
+* `-v /comics` - root directory where comics are stored
+* `-p 31257` - AirComix service port
 
+## Test
+1. Launch `http://<server ip>:<service port>/comics`
+2. Default username: `AirComix`
+3. Default password: `y0urp@ssw0rd`
 
-Port
+## How to change the password
+* Use following command:
+```bash
+>>> docker exec <your-container-name> /bin/sh -c 'htpasswd -cb /var/www/comix-server/.htpasswd AirComix <your-password>'
+Adding password for user AirComix
+```
 
-31257 : service port
+## References
+* Base image: [webdevops/php-apache:5.6](https://hub.docker.com/r/webdevops/php-apache/)
+* AirComix Server (PHP Version): https://github.com/song31/comix-server
 
-
-Default account
-
-Username: AirComix
-
-Password: y0urp@ssw0rd
-
-
-How to change default password
-1. Connect to SSH
-2. Run command
-$ docker exec <your-container-name> /bin/sh -c 'htpasswd -cb /var/www/comix-server/.htpasswd AirComix <your-password>'
